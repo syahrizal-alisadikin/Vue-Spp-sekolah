@@ -90,6 +90,7 @@ const auth = {
           jenis_kelamin: siswa.jenis_kelamin,
           alamat: siswa.alamat,
           password_confirmation: siswa.password_confirmation,
+          kelas_id: siswa.kelas_id,
         })
 
           .then((response) => {

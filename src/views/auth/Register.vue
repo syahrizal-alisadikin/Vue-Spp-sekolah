@@ -71,6 +71,18 @@
                 />
               </div>
               <div class="mb-3">
+                <label class="form-label">Kelas</label>
+                <select v-model="siswa.kelas_id" class="form-control">
+                  <option value="">-- Pilih Kelas --</option>
+                  <option v-for="kela in kelas" :key="kela.id" :value="kela.id">
+                    {{ kela.name }}
+                  </option>
+                </select>
+              </div>
+              <div v-if="validation.kelas_id" class="mt-2 alert alert-danger">
+                {{ validation.kelas_id[0] }}
+              </div>
+              <div class="mb-3">
                 <label class="form-label">Jenis Kelamin</label>
                 <select v-model="siswa.jenis_kelamin" class="form-control">
                   <option value="laki-laki" selected>LAKI-LAKI</option>
@@ -128,9 +140,11 @@
 </template>
 
 <script>
-import { ref, reactive } from "vue";
+import { ref, reactive, onMounted } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
+//import axios
+import axios from "axios";
 import ComponentHeader from "@/components/Header";
 import ComponentFooter from "@/components/Footer";
 export default {
@@ -149,17 +163,30 @@ export default {
       jenis_kelamin: "",
       alamat: "",
       password_confirmation: "",
+      kelas_id: "",
     });
 
     //validation state
     const validation = ref([]);
-
+    //define state
+    const kelas = ref([]);
     // store vuex
     const store = useStore();
 
     //route
     const router = useRouter();
 
+    onMounted(() => {
+      axios
+        .get("/api/kelas")
+        .then((response) => {
+          console.log(response.data.data[0]);
+          kelas.value = response.data.data[0];
+        })
+        .catch(() => {
+          kelas.value = [];
+        });
+    });
     //method register
     function register() {
       //define variable
@@ -198,6 +225,7 @@ export default {
       siswa,
       validation,
       register,
+      kelas,
     };
   },
 };
