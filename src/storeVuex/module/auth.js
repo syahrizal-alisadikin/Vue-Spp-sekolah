@@ -77,6 +77,49 @@ const auth = {
           });
       });
     },
+    //action login
+    register({ commit }, siswa) {
+      //define callback promise
+      return new Promise((resolve, reject) => {
+        Api.post("/register", {
+          //data yang dikirim ke server
+          name: siswa.name,
+          email: siswa.email,
+          phone: siswa.phone,
+          password: siswa.password,
+          jenis_kelamin: siswa.jenis_kelamin,
+          alamat: siswa.alamat,
+          password_confirmation: siswa.password_confirmation,
+        })
+
+          .then((response) => {
+            //define variable dengan isi hasil response dari server
+            const access_token = response.data.data.access_token;
+            const siswa = response.data.data.user;
+
+            //set localStorage untuk menyimpan token dan data user
+            localStorage.setItem("access_token", access_token);
+            localStorage.setItem("siswa", JSON.stringify(siswa));
+
+            //set default header axios dengan token
+            Api.defaults.headers.common["Authorization"] =
+              "Bearer " + access_token;
+
+            //commit auth success ke mutation
+            commit("AUTH_SUCCESS", access_token, siswa);
+
+          
+            resolve(response);
+          })
+          .catch((error) => {
+            //jika gagal, remove localStorage dengan key token
+            localStorage.removeItem("access_token");
+
+            //reject ke component dengan hasil response
+            reject(error.response.data);
+          });
+      });
+    },
 
     //action logout
     logout({ commit }) {
