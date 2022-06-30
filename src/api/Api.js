@@ -3,7 +3,7 @@ import axios from "axios";
 
 const Api = axios.create({
   //set default endpoint API
-  baseURL: "http://localhost:1200/api",
+  baseURL: "https://sekolah.izaldev.my.id/api",
 });
 
 export default Api;

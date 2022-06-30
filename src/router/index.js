@@ -2,6 +2,11 @@
 import { createRouter, createWebHistory } from "vue-router";
 import store from "@/storeVuex";
 
+//import axios
+import axios from 'axios';
+
+//default base URL / EndPoint API
+axios.defaults.baseURL = "https://sekolah.izaldev.my.id/";
 //define a routes
 const routes = [
   {
@@ -88,6 +93,13 @@ const routes = [
       requiresAuth: true,
     },
   },
+  {
+    path: "/register-success",
+    name: "register_success",
+    component: () =>
+      import(/* webpackChunkName: "PostShow" */ "@/views/dashboard/Register_Success"),
+  },
+
 ];
 
 //create router

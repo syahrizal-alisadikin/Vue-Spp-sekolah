@@ -4,9 +4,11 @@
     style="border-top: 5px solid rgb(175, 140, 226); position: relative"
   >
     <div class="container-fluid">
-      <a class="navbar-brand" href="#"
+      <router-link
+        :to="{ name: 'home' }"
+        class="text-decoration-none text-white text-uppercase"
         ><i class="fa fa-graduation-cap" aria-hidden="true"></i> SMK
-        INDONESIA</a
+        INDONESIA</router-link
       >
       <button
         class="navbar-toggler"
@@ -47,11 +49,19 @@
             >
           </li>
         </ul>
-        <ul class="navbar-nav ms-auto" v-if="isLoggedIn">
-          <li class="nav-item">
-            <a class="nav-link" href="#"
-              ><i class="fa fa-tachometer-alt" aria-hidden="true"></i>
-              DASHBOARD</a
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item" v-if="isLoggedIn">
+            <router-link
+              :to="{ name: 'dashboard' }"
+              class="text-decoration-none text-white text-uppercase"
+              ><i class="fas fa-tachometer-alt"></i> Dashboard</router-link
+            >
+          </li>
+          <li class="nav-item" v-else>
+            <router-link
+              :to="{ name: 'login' }"
+              class="text-decoration-none text-white text-uppercase"
+              ><i class="fas fa-sign-in-alt"></i> LOGIN</router-link
             >
           </li>
         </ul>
