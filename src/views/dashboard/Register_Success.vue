@@ -14,17 +14,17 @@
                       <tr>
                         <th scope="col">NAMA</th>
                         <th scope="col">:</th>
-                        <th scope="col">Syahrizal</th>
+                        <th scope="col">{{ siswa.name }}</th>
                       </tr>
                       <tr>
                         <th scope="col">EMAIL</th>
                         <th scope="col">:</th>
-                        <th scope="col">Izal@Email.com</th>
+                        <th scope="col">{{ siswa.email }}</th>
                       </tr>
                       <tr>
                         <th scope="col">PHONE</th>
                         <th scope="col">:</th>
-                        <th scope="col">089645624</th>
+                        <th scope="col">{{ siswa.phone }}</th>
                       </tr>
                     </thead>
                   </table>
@@ -54,11 +54,36 @@
 <script>
 import ComponentHeader from "@/components/Header";
 import ComponentFooter from "@/components/Footer";
+import { computed, onMounted } from "vue";
+import { useStore } from "vuex";
 export default {
   name: "RegisterSuccess",
   components: {
     ComponentHeader,
     ComponentFooter,
+  },
+
+  setup() {
+    //store vuex
+    const store = useStore();
+
+    //mounted
+    onMounted(() => {
+      //panggil action "getUser" dari module "auth" vuex
+      store.dispatch("auth/getSiswa");
+    });
+
+    //computed
+    const siswa = computed(() => {
+      //panggil getters dengan nama "currentUser" dari module "auth"
+      return store.getters["auth/currentSiswa"];
+    });
+
+    //return a state and function
+    return {
+      store,
+      siswa,
+    };
   },
 };
 </script>

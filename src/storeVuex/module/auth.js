@@ -122,6 +122,22 @@ const auth = {
       });
     },
 
+    //action getSiswa
+    getSiswa({ commit }) {
+
+      //ambil data token dari localStorage
+      const access_token = localStorage.getItem('access_token')
+
+      Api.defaults.headers.common['Authorization'] = "Bearer " +access_token
+      Api.get('/user')
+      .then(response => {
+          // console.log(response.data);
+          //commit ke mutatuin GET_SISWA dengan hasil response
+          commit('GET_SISWA', response.data)
+
+      })
+  },
+
     //action logout
     logout({ commit }) {
       //define callback promise
