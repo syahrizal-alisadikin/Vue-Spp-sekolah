@@ -197,6 +197,7 @@ export default {
       let jenis_kelamin = siswa.jenis_kelamin;
       let alamat = siswa.alamat;
       let password_confirmation = siswa.password_confirmation;
+      let kelas_id = siswa.kelas_id;
 
       //panggil action "login" dari module "auth" di vuex
       store
@@ -208,6 +209,7 @@ export default {
           jenis_kelamin,
           alamat,
           password_confirmation,
+          kelas_id,
         })
         .then(() => {
           //redirect ke dashboard
