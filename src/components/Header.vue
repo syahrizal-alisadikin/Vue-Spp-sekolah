@@ -24,28 +24,29 @@
       <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav mr-auto mb-2 mb-md-0">
           <li class="nav-item">
-            <a class="nav-link" href="#"
-              ><i class="fa fa-book-open" aria-hidden="true"></i> BERITA</a
+            <router-link :to="{ name: 'post' }" class="nav-link"
+              ><i class="fa fa-book-open" aria-hidden="true"></i>
+              BERITA</router-link
             >
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#"
-              ><i class="fa fa-calendar" aria-hidden="true"></i> AGENDA</a
+  <router-link :to="{ name: 'event' }" class="nav-link"
+              ><i class="fa fa-calendar" aria-hidden="true"></i> AGENDA</router-link
             >
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#"
-              ><i class="fa fa-image" aria-hidden="true"></i> GALERI</a
+           <router-link :to="{ name: 'photo' }" class="nav-link"
+              ><i class="fa fa-image" aria-hidden="true"></i> GALERI</router-link
             >
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#"
-              ><i class="fa fa-video" aria-hidden="true"></i> VIDEO</a
+            <router-link :to="{ name: 'video' }" class="nav-link"
+              ><i class="fa fa-video" aria-hidden="true"></i> VIDEO</router-link
             >
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#"
-              ><i class="fa fa-phone" aria-hidden="true"></i> KONTAK</a
+             <router-link :to="{ name: 'contact' }" class="nav-link"
+              ><i class="fa fa-phone" aria-hidden="true"></i> KONTAK</router-link
             >
           </li>
         </ul>
