@@ -122,7 +122,7 @@
 
             <div v-if="videos.length > 0" class="row">
               <div
-                class="col-md-6 mb-4"
+                class="col-md-6 col-lg-4 mb-4"
                 v-for="video in videos"
                 :key="video.id"
               >
@@ -165,6 +165,15 @@
             </div>
 
             <!-- end video section -->
+          </div>
+          <div class="text-center" v-show="moreExistsVideos">
+            <button
+              type="button"
+              class="btn btn-primary btn-md"
+              v-on:click="loadMore"
+            >
+              <span class="fa fa-arrow-down"></span> LIHAT LEBIH BANYAK VIDEO
+            </button>
           </div>
         </div>
         <div class="col-md-4">
@@ -315,16 +324,53 @@ export default {
     const photos = ref([]);
     const photos_loader = ref(2);
 
+    let moreExistsVideos = ref(false);
+    let nextPageVideos = ref(0);
+
+    const fetchDataVideos = () => {
+      //get videos
+      axios.get("/api/homepage/video").then((response) => {
+        videos.value = response.data.data.data;
+        if (response.data.data.current_page < response.data.data.last_page) {
+          //set state moreExists to true
+          moreExistsVideos.value = true;
+
+          //set state nextPage to next page
+          nextPageVideos.value = response.data.data.current_page + 1;
+        } else {
+          //set state moreExists to false
+          moreExistsVideos.value = false;
+        }
+      });
+    };
+    //define method loadMore Videos
+    const loadMore = () => {
+      axios
+        .get(`/api/homepage/video?page=${nextPageVideos.value}`)
+        .then((response) => {
+          if (response.data.data.current_page < response.data.data.last_page) {
+            //set state moreExists to true
+            moreExistsVideos.value = true;
+
+            //set state nextPage to next page
+            nextPageVideos.value = response.data.data.current_page + 1;
+          } else {
+            //set state moreExists to false
+            moreExistsVideos.value = false;
+          }
+
+          //push data to state videos
+          response.data.data.data.forEach((data) => {
+            videos.value.push(data);
+          });
+        });
+    };
+
     //hook onMounted
     onMounted(() => {
       //get posts
       axios.get("/api/homepage/post").then((response) => {
         posts.value = response.data.data;
-      });
-
-      //get videos
-      axios.get("/api/homepage/video").then((response) => {
-        videos.value = response.data.data;
       });
 
       //get events
@@ -341,6 +387,8 @@ export default {
       axios.get("/api/homepage/photo").then((response) => {
         photos.value = response.data.data;
       });
+
+      fetchDataVideos();
     });
 
     //return state
@@ -355,6 +403,9 @@ export default {
       categories_loader,
       photos,
       photos_loader,
+      moreExistsVideos,
+      nextPageVideos,
+      loadMore,
     };
   },
 };

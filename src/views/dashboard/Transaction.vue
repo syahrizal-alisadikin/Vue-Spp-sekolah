@@ -9,7 +9,7 @@
         <div class="card border-0 rounded shadow">
           <div class="card-body">
             <h5 class="font-weight-bold">
-              <i class="fas fa-tachometer-alt"></i> DASHBOARD
+              <i class="fas fa-tachometer-alt"></i> DASHBOARD TRANSACTION
             </h5>
             <hr />
             Selamat Datang <strong>{{ user.name }}</strong>
@@ -29,7 +29,7 @@ import ComponentFooter from "@/components/Footer";
 import { computed, onMounted } from "vue";
 import { useStore } from "vuex";
 export default {
-  name: "DashboardComponent",
+  name: "FriendComponent",
 
   components: {
     ComponentHeader,

@@ -94,6 +94,29 @@ const routes = [
     },
   },
   {
+    path: "/dashboard/friend",
+    name: "friend",
+    component: () =>
+      import(/* webpackChunkName: "Dashboard" */ "@/views/dashboard/Friend"),
+
+    meta: {
+      //chek is loggedIn
+      requiresAuth: true,
+    },
+  },
+
+  {
+    path: "/dashboard/transaction",
+    name: "transaction",
+    component: () =>
+      import(/* webpackChunkName: "Dashboard" */ "@/views/dashboard/Transaction"),
+
+    meta: {
+      //chek is loggedIn
+      requiresAuth: true,
+    },
+  },
+  {
     path: "/register-success",
     name: "register_success",
     component: () =>
