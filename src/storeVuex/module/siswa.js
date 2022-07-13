@@ -26,13 +26,12 @@ const auth = {
   actions: {
     
   //action getFriend
-  getFriend({ commit },{name}) {
+  getFriend({ commit },{name,rows}) {
 
     //define variable token
     const token = localStorage.getItem('access_token')
-
     Api.defaults.headers.common['Authorization'] = "Bearer " +token
-    Api.get('/friend?name='+ name)
+    Api.get('/friend?name='+ name +'&rows='+ rows)
     .then(response => {
         //commit ke mutation GET_ORDER
         commit('GET_FRIEND', response.data.data.data)
@@ -41,13 +40,12 @@ const auth = {
     })
 
 },
-getPagination({ commit },{url}) {
+getPagination({ commit },{url,rows,name}) {
 
   //define variable token
   const token = localStorage.getItem('access_token')
-  console.log(url)
   Api.defaults.headers.common['Authorization'] = "Bearer " +token
-  Api.get('/friend?page='+ url)
+  Api.get('/friend?page='+ url +'&rows=' + rows + '&name=' + name)
   .then(response => {
       //commit ke mutation GET_ORDER
       commit('GET_FRIEND', response.data.data.data)

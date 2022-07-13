@@ -14,19 +14,36 @@
             <hr />
             <form @submit.prevent="handleSearch">
               <div class="row mb-3">
-                <div class="col-md-6 col-lg-4">
+                <div class="col-md-3 col-lg-1 mb-2">
+                  <div class="form-group">
+                    <select
+                      name="rows"
+                      class="form-select"
+                      v-on:change="handleSearch"
+                      v-model="rows"
+                    >
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-lg-9"></div>
+                <div class="col-md-6 col-lg-2">
                   <div class="form-group">
                     <input
                       type="text"
                       name="name"
                       class="form-control"
                       v-model="search"
-                      placeholder="Cari berdasarkan Nama"
+                      v-on:keyup="handleSearch"
+                      placeholder="Search Friend..."
                     />
                   </div>
                 </div>
 
-                <div class="col-md-1">
+                <!-- <div class="col-md-1">
                   <div class="form-group">
                     <button
                       class="btn btn-primary input-group-text"
@@ -35,7 +52,7 @@
                       <i class="fa fa-search"></i> SEARCH
                     </button>
                   </div>
-                </div>
+                </div> -->
               </div>
             </form>
             <div class="table-responsive">
@@ -66,8 +83,9 @@
               </table>
             </div>
 
+            <!-- start Pagination -->
             <nav>
-              <ul :class="`pagination justify-content-center mb-0`">
+              <ul :class="`pagination justify-content-end mb-0`">
                 <li
                   :class="[
                     'page-item',
@@ -82,12 +100,13 @@
                     :class="`page-link ${
                       link.active ? 'bg-primary text-white' : ''
                     }`"
+                    v-html="link.label"
                   >
-                    {{ link.label }}
                   </a>
                 </li>
               </ul>
             </nav>
+            <!-- end Pagination -->
           </div>
         </div>
       </div>
@@ -119,10 +138,14 @@ export default {
 
     const store = useStore();
     const search = ref("");
+    const rows = ref(1);
     //mounted
     onMounted(() => {
       //panggil action "getSiswa" dari module "auth" vuex
-      store.dispatch("siswa/getFriend", { name: search.value ?? "" });
+      store.dispatch("siswa/getFriend", {
+        name: search.value ?? "",
+        rows: rows.value,
+      });
     });
 
     //computed
@@ -138,14 +161,21 @@ export default {
     });
 
     const goToPage = (url) => {
-      store.dispatch("siswa/getPagination", { url: url });
+      store.dispatch("siswa/getPagination", {
+        url: url,
+        rows: rows.value,
+        name: search.value,
+      });
     };
 
     const handleSearch = () => {
       store.dispatch(
         "siswa/getFriend",
         // params
-        { name: search.value }
+        {
+          name: search.value,
+          rows: rows.value,
+        }
       );
     };
 
@@ -155,6 +185,7 @@ export default {
       friends,
       pagination,
       search,
+      rows,
       handleSearch,
       goToPage,
     };
