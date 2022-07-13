@@ -12,13 +12,25 @@
               <i class="fas fa-tachometer-alt"></i> DASHBOARD TRANSACTION CREATE
             </h5>
             <hr />
-            <form @submit.prevent="register">
+            <form @submit.prevent="registerTransaction">
               <div class="row">
                 <div class="col-md-5">
                   <div class="mb-3">
                     <label class="form-label">Pilih Pembayaran</label>
-                    <select v-model="siswa.tagihan_id" class="form-control">
+                    <select
+                      v-model="siswa.tagihan_id"
+                      v-on:change="onChange()"
+                      class="form-control"
+                      required
+                    >
                       <option value="">-- Pilih Pembayaran --</option>
+                      <option
+                        v-for="item in tagihan"
+                        :key="item.id"
+                        :value="item.id"
+                      >
+                        {{ item.name }}
+                      </option>
                     </select>
                   </div>
                   <div
@@ -26,6 +38,16 @@
                     class="mt-2 alert alert-danger"
                   >
                     {{ validation.tagihan_id[0] }}
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Nominal</label>
+                    <input
+                      type="text"
+                      v-model="siswa.nominal"
+                      class="form-control"
+                      placeholder="Nominal"
+                      readonly
+                    />
                   </div>
                   <div class="d-grid gap-2">
                     <button type="submit" class="btn btn-primary btn-block">
@@ -49,8 +71,10 @@ import ComponentHeader from "@/components/Header";
 import ComponentSidebar from "@/components/Sidebar.vue";
 import ComponentFooter from "@/components/Footer";
 import { ref, reactive, onMounted } from "vue";
-// import { useStore } from "vuex";
-// import { useRouter } from "vue-router";
+import { useStore } from "vuex";
+import Swal from "sweetalert2";
+
+import { useRouter } from "vue-router";
 //import axios
 import axios from "axios";
 export default {
@@ -66,6 +90,7 @@ export default {
     //user state
     const siswa = reactive({
       tagihan_id: "",
+      nominal: 0,
     });
 
     //validation state
@@ -73,29 +98,68 @@ export default {
     //define state
     const tagihan = ref([]);
     // store vuex
-    // const store = useStore();
+    const store = useStore();
 
-    // //route
-    // const router = useRouter();
+    const search = ref("");
+
+    const router = useRouter();
+    const rows = ref(5);
 
     onMounted(() => {
       axios
         .get("/api/tagihan")
         .then((response) => {
-          console.log(response.data.data[0]);
-          // kelas.value = response.data.data[0];
+          tagihan.value = response.data.data;
         })
         .catch(() => {
           tagihan.value = [];
         });
     });
-    //method register
+    //method onchange
+    const onChange = () => {
+      axios.get("/api/tagihan/" + siswa.tagihan_id).then((response) => {
+        siswa.nominal = `${response.data.data.nominal}`;
+      });
+      // siswa.tagihan_id = e.target.value;
+    };
+
+    // Register Transaction
+    const registerTransaction = () => {
+      let tagihan_id = siswa.tagihan_id;
+      let nominal = siswa.nominal;
+      //panggil action "login" dari module "auth" di vuex
+      store
+        .dispatch("siswa/storeTransaction", {
+          tagihan_id,
+          nominal,
+        })
+        .then(() => {
+          //redirect ke dashboard
+          store.dispatch("siswa/getTransaction", {
+            name: search.value ?? "",
+            rows: rows.value,
+          });
+          router.push({ name: "transaction" });
+          Swal.fire({
+            title: "Berhasil!",
+            text: "Data berhasil dihapus!",
+            icon: "success",
+          });
+        })
+        .catch((error) => {
+          //assign validaation message
+          validation.value = error;
+          // console.log(validation);
+        });
+    };
 
     //return object
     return {
       siswa,
       validation,
       tagihan,
+      onChange,
+      registerTransaction,
     };
   },
 };

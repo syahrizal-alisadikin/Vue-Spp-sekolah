@@ -32,7 +32,7 @@
                 <div class="col-lg-9 text-center">
                   <router-link
                     :to="{ name: 'transaction-create' }"
-                    class="btn btn-sm btn-primary mt-1"
+                    class="btn btn-sm btn-primary my-2"
                   >
                     <i class="fa fa-plus"></i> Transaction
                   </router-link>

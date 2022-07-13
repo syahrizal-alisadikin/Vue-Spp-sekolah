@@ -114,8 +114,47 @@ const auth = {
   
         })
   
-      }
-       
+      },
+
+      // Craete Transaction
+      storeTransaction({ commit }, siswa) {
+        //define variable token
+        const token = localStorage.getItem('access_token')
+        Api.defaults.headers.common['Authorization'] = "Bearer " +token
+        //define callback promise
+        return new Promise((resolve, reject) => {
+
+            //send data ke server
+            Api.post('/tagihan/store', {
+
+                    //data yang dikirim ke serve untuk proses register
+                    tagihan_id: siswa.tagihan_id,
+                    nominal: siswa.nominal,
+                    
+
+                })
+
+                .then(response => {
+
+                  console.log(response.data.data)
+
+                    //commit auth success ke mutation
+                    commit('GET_TRANSACTION', response.data.data.data)
+                    commit('GET_PAGINATION', response.data.data)
+
+                    //resolve ke component dengan hasil response
+                    resolve(response)
+
+                }).catch(error => {
+                  console.log(error)
+                    //jika gagal, remove localStorage dengan key token
+                    //reject ke component dengan hasil response
+                    reject(error.response.data)
+
+                })
+
+        })
+    }
 
   },
 
