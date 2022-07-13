@@ -91,9 +91,31 @@ const auth = {
 
     },
 
+    // Delete Transaction
+    deleteTransaction({ commit },{id,rows,name}) {
+        
+        //define variable token
+        const token = localStorage.getItem('access_token')
+        Api.defaults.headers.common['Authorization'] = "Bearer " +token
+        Api.delete('/transactions/'+ id)
+        .then(() => {
+            //commit ke mutation GET_ORDER
 
+            // Setelah di hapus, hit kembali datanya
+            Api.get('/transactions?name='+ name +'&rows='+ rows)
+            .then(response => {
+                //commit ke mutation GET_ORDER
+                commit('GET_TRANSACTION', response.data.data.data)
+                commit('GET_PAGINATION', response.data.data)
 
+            })
+
+            
   
+        })
+  
+      }
+       
 
   },
 

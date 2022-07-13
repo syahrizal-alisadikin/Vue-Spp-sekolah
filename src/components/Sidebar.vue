@@ -11,7 +11,11 @@
     <li class="list-group-item">
       <router-link
         :to="{ name: 'transaction' }"
-        :class="{ active: 'transaction' === $route.name }"
+        :class="{
+          active:
+            'transaction' === $route.name ||
+            'transaction-create' === $route.name,
+        }"
         class="list-group-item text-decoration-none text-uppercase"
         ><i class="fas fa-dollar-sign"></i> Pembayaran</router-link
       >

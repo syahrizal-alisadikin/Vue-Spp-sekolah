@@ -29,7 +29,14 @@
                     </select>
                   </div>
                 </div>
-                <div class="col-lg-9"></div>
+                <div class="col-lg-9 text-center">
+                  <router-link
+                    :to="{ name: 'transaction-create' }"
+                    class="btn btn-sm btn-primary mt-1"
+                  >
+                    <i class="fa fa-plus"></i> Transaction
+                  </router-link>
+                </div>
                 <div class="col-md-6 col-lg-2">
                   <div class="form-group">
                     <input
@@ -93,8 +100,12 @@
                       </button>
                     </th>
                     <th v-else>
-                      <button type="button" class="btn btn-sm btn-danger">
-                        Belum Lunas
+                      <button
+                        @click.prevent="deleteTransaction(transaction.id)"
+                        type="button"
+                        class="btn btn-sm btn-danger"
+                      >
+                        Hapus
                       </button>
                     </th>
                   </tr>
@@ -144,10 +155,10 @@
 import ComponentHeader from "@/components/Header";
 import ComponentSidebar from "@/components/Sidebar.vue";
 import ComponentFooter from "@/components/Footer";
-
 import { computed, onMounted, ref } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
+import Swal from "sweetalert2";
 export default {
   name: "TransactionComponent",
 
@@ -204,6 +215,34 @@ export default {
       });
     };
 
+    // Hapus data
+    const deleteTransaction = (id) => {
+      Swal.fire({
+        title: "Apakah anda yakin?",
+        text: "Data akan dihapus!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Ya, Hapus!",
+      }).then((result) => {
+        if (result.value) {
+          store.dispatch("siswa/deleteTransaction", {
+            id: id,
+            rows: rows.value,
+            name: search.value,
+          });
+
+          // alert success
+          Swal.fire({
+            title: "Berhasil!",
+            text: "Data berhasil dihapus!",
+            icon: "success",
+          });
+        }
+      });
+    };
+
     //function payment "Midtrans"
     function payment(midtrans_id) {
       window.snap.pay(midtrans_id, {
@@ -233,6 +272,7 @@ export default {
       pagination,
       handleSearch,
       goToPage,
+      deleteTransaction,
       payment,
     };
   },
@@ -242,6 +282,6 @@ export default {
 <style scoped>
 /* height id dashboard */
 #dashboard {
-  height: calc(75vh - 100px);
+  /* height: calc(100vh - 100px); */
 }
 </style>

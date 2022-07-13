@@ -117,6 +117,17 @@ const routes = [
     },
   },
   {
+    path: "/dashboard/transaction/create",
+    name: "transaction-create",
+    component: () =>
+      import(/* webpackChunkName: "Dashboard" */ "@/views/dashboard/Transaction-Create"),
+
+    meta: {
+      //chek is loggedIn
+      requiresAuth: true,
+    },
+  },
+  {
     path: "/register-success",
     name: "register_success",
     component: () =>
