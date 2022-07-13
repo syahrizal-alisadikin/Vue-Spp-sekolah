@@ -22,10 +22,10 @@
                       v-on:change="handleSearch"
                       v-model="rows"
                     >
-                      <option value="1">1</option>
-                      <option value="2">2</option>
-                      <option value="3">3</option>
-                      <option value="4">4</option>
+                      <option value="5">5</option>
+                      <option value="10">10</option>
+                      <option value="25">25</option>
+                      <option value="50">50</option>
                     </select>
                   </div>
                 </div>
@@ -57,8 +57,8 @@
             </form>
             <div class="table-responsive">
               <table class="table table-striped table-bordered">
-                <thead class="thead-dark">
-                  <tr>
+                <thead class="table-primary">
+                  <tr class="text-center">
                     <th scope="col">Nisn</th>
                     <th scope="col">NAME</th>
                     <th scope="col">EMAIL</th>
@@ -67,7 +67,11 @@
                   </tr>
                 </thead>
                 <tbody v-if="friends.length > 0">
-                  <tr v-for="friend in friends" :key="friend.id">
+                  <tr
+                    v-for="friend in friends"
+                    :key="friend.id"
+                    class="text-center"
+                  >
                     <th>{{ friend.nisn ?? "Belum ada Nisn" }}</th>
                     <th>{{ friend.name ?? "Belum ada Name" }}</th>
                     <th>{{ friend.email ?? "Belum ada Email" }}</th>
@@ -97,6 +101,7 @@
                 >
                   <a
                     v-on:click="goToPage(link.label)"
+                    style="cursor: pointer"
                     :class="`page-link ${
                       link.active ? 'bg-primary text-white' : ''
                     }`"
@@ -138,7 +143,7 @@ export default {
 
     const store = useStore();
     const search = ref("");
-    const rows = ref(1);
+    const rows = ref(5);
     //mounted
     onMounted(() => {
       //panggil action "getSiswa" dari module "auth" vuex
