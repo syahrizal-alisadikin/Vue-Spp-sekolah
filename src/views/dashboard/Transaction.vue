@@ -136,7 +136,9 @@
                     :class="`page-link ${
                       link.active ? 'bg-primary text-white' : ''
                     }`"
-                    v-html="link.label"
+                    v-html="
+                      link.label == '&laquo; Previous' ? '...' : link.label
+                    "
                   >
                   </a>
                 </li>
@@ -175,6 +177,7 @@ export default {
 
     const router = useRouter();
     const rows = ref(5);
+    const latest = ref();
 
     //mounted
     onMounted(() => {
@@ -208,11 +211,40 @@ export default {
     };
 
     const goToPage = (url) => {
-      store.dispatch("siswa/getPaginationTransaction", {
-        url: url,
-        rows: rows.value,
-        name: search.value,
-      });
+      if (url == "&laquo; Previous") {
+        // latest.value = latest.value - 1;
+        store.dispatch(
+          "siswa/getPaginationTransaction",
+          // params
+          {
+            url: latest.value - 1,
+
+            name: search.value,
+            rows: rows.value,
+          }
+        );
+        latest.value = latest.value - 1;
+      } else if (url == "Next &raquo;") {
+        // latest.value = latest.value + 1;
+        store.dispatch(
+          "siswa/getPaginationTransaction",
+          // params
+          {
+            url: latest.value + 1,
+            name: search.value,
+            rows: rows.value,
+          }
+        );
+        latest.value = latest.value + 1;
+      } else {
+        latest.value = url;
+
+        store.dispatch("siswa/getPaginationTransaction", {
+          url: url,
+          rows: rows.value,
+          name: search.value,
+        });
+      }
     };
 
     // Hapus data
@@ -274,6 +306,7 @@ export default {
       goToPage,
       deleteTransaction,
       payment,
+      latest,
     };
   },
 };

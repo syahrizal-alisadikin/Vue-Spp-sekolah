@@ -6,9 +6,11 @@ import router from "./router";
 
 //import store vuex
 import storeVx from "./storeVuex";
+import ArgonDashboard from "./argon-dashboard";
 
 const app = createApp(App);
 
+app.use(ArgonDashboard);
 app.use(storeVx);
 app.use(router);
 

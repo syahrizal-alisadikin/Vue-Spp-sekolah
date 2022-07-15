@@ -18,9 +18,9 @@ body {
   border-radius: 0px !important;
 }
 
-.breadcrumb a {
+/* .breadcrumb a {
   color: white;
-}
+} */
 
 .breadcrumb-item + .breadcrumb-item::before {
   display: inline-block;
@@ -31,4 +31,11 @@ body {
 
 .breadcrumb-item.active {
   color: white;
+}
+
+/* Info Error */
+.alert-danger {
+  color: #fff !important;
+  background-color: #fdd7de;
+  border-color: #fcc3ce;
 }
