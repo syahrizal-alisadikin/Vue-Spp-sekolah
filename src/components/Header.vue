@@ -30,13 +30,15 @@
             >
           </li>
           <li class="nav-item">
-  <router-link :to="{ name: 'event' }" class="nav-link"
-              ><i class="fa fa-calendar" aria-hidden="true"></i> AGENDA</router-link
+            <router-link :to="{ name: 'event' }" class="nav-link"
+              ><i class="fa fa-calendar" aria-hidden="true"></i>
+              AGENDA</router-link
             >
           </li>
           <li class="nav-item">
-           <router-link :to="{ name: 'photo' }" class="nav-link"
-              ><i class="fa fa-image" aria-hidden="true"></i> GALERI</router-link
+            <router-link :to="{ name: 'photo' }" class="nav-link"
+              ><i class="fa fa-image" aria-hidden="true"></i>
+              GALERI</router-link
             >
           </li>
           <li class="nav-item">
@@ -45,8 +47,9 @@
             >
           </li>
           <li class="nav-item">
-             <router-link :to="{ name: 'contact' }" class="nav-link"
-              ><i class="fa fa-phone" aria-hidden="true"></i> KONTAK</router-link
+            <router-link :to="{ name: 'contact' }" class="nav-link"
+              ><i class="fa fa-phone" aria-hidden="true"></i>
+              KONTAK</router-link
             >
           </li>
         </ul>
@@ -94,3 +97,8 @@ export default {
   },
 };
 </script>
+ <style scoped>
+.navbar-toggler .navbar-toggler-icon {
+  background-image: block !important;
+}
+</style>
