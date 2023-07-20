@@ -6,7 +6,7 @@ import store from "@/storeVuex";
 import axios from 'axios';
 
 //default base URL / EndPoint API
-axios.defaults.baseURL = "https://sekolah.izaldev.my.id/";
+axios.defaults.baseURL = "https://izaldev.my.id/";
 //define a routes
 const routes = [
   {
